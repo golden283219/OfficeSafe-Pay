@@ -1,0 +1,37 @@
+{
+  "name": "officesafe-pay",
+  "appName": "OfficeSafe Pay",
+  "version": "1.4.14",
+  "description": "OfficeSafe-Pay Application",
+  "main": "electron/main.js",
+  "scripts": {
+    "serve-test-data": "cd test_data && python -m livehttp",
+    "start": "electron-forge start",
+    "start-ui": "cd ui && yarn start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "make-win": "electron-forge make --platform=win32",
+    "pack-win": "electron-forge package --platform=win32",
+    "zip-win": "OSP_VERSION=$(node -p -e \"require('./package.json').version\") && cd out && zip -rXq  -1 officesafe-pay-$OSP_VERSION.zip officesafe-pay-win32-x64 && open .",
+    "publish": "electron-forge publish",
+    "make-ui": "cd ui && yarn && yarn build && rm -rf ../electron/ui && cp -r build/ ../electron/ui",
+    "make-binaries": "yarn run clear-binaries && yarn run make-automator && yarn run copy-automator",
+    "make-automator": "msbuild /t:Build /p:Configuration=Release winautomate/dxauto.sln",
+    "copy-automator": "cp -r winautomate/bin/Release/* electron/binary/",
+    "clear-binaries": "rm -rf winautomate/{bin,obj} electron/binary/* "
+  },
+  "repository": "https://github.com/thepragmaticdev/OfficeSafe-Pay-NMI",
+  "author": {
+    "name": "PCIHIPAA"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "config": {
+    "forge": "./forge.config.js"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.60",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
+    "electron": "13.1.6"
+  }
+}

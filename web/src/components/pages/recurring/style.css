@@ -1,0 +1,10 @@
+.MuiTablePagination-caption {
+  flex-shrink: 0;
+  display: none;
+}
+.MuiTablePagination-input {
+  color: inherit;
+  font-size: inherit;
+  flex-shrink: 0;
+  display: none !important;
+}

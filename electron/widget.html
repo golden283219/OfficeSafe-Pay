@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            font-family: "Microsoft Sans Serif", Arial, sans-serif;
+            font-size: 10px;
+            color: #202020;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            line-height: 1;
+            background: #fff;
+            cursor: move;
+        }
+
+        * {
+            outline: none;
+            user-select: none;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .btn {
+            -webkit-app-region: no-drag;
+            background: #fff;
+            margin: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #fafafa;
+            color: #0b69ff;
+        }
+
+        .btn.disabled {
+            cursor: wait;
+            color: gray;
+        }
+    </style>
+</head>
+<body style="-webkit-app-region: drag">
+<div class="container">
+    <button id="btnAccept" class="btn">Accept Payment</button>
+</div>
+<script>
+	document.querySelector('#btnAccept').addEventListener('click', function () {
+		// action in progress?
+		if (this.classList.contains('disabled'))
+			return false;
+
+		// process interop not registered?
+		if (!window.nodeapi) {
+			return;
+		}
+
+		// freeze button
+		this.classList.add('disabled')
+		// register button unlocker
+		setTimeout((classList) => {
+			classList.remove('disabled')
+		}, 3000, this.classList)
+
+		// perform action
+		window.nodeapi.send('widget-action', {
+		  focus: true,
+          action: 'show-terminal-payment'
+        })
+	})
+</script>
+</body>
+</html>
